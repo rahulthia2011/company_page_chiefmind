@@ -246,7 +246,7 @@ function App() {
         {page === 'home' ? (
           <>
             <h1 className="hero-title">
-              Where Intelligent systems Take&nbsp;Shape
+              Where intelligent systems take shape
             </h1>
             <div className="hero-copy">
               <p className="lead">
@@ -256,10 +256,10 @@ function App() {
 
               <div className="cta-row">
                 <Button variant="default" size="lg">
-                  Start a Project <ArrowRight size={16} />
+                  Start a project <ArrowRight size={16} />
                 </Button>
                 <a className={buttonVariants({ variant: 'outline', size: 'lg' })} href="#about">
-                  View Capabilities
+                  View capabilities
                 </a>
               </div>
             </div>

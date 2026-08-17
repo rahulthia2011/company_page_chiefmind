@@ -1,26 +1,49 @@
 export default function RealMarketPage() {
   return (
     <section className="page-panel" aria-labelledby="real-market-title">
-      <p className="eyebrow">Chiefmind™ REAL</p>
       <h1 className="hero-title" id="real-market-title">
-        REAL - Market
+        Chiefmind™ REAL - Market
       </h1>
-      <p className="lead page-lead">
-        Turn live market context into structured signals, sharper decisions, and faster operational response.
+      <p className="lead page-lead market-description">
+        Market reads shipping data, import and export activity, and supplier data from multiple sources to understand how the companies you invest in actually operate. It turns that operational context into clearer signals for better investment decisions.
       </p>
-      <div className="contact-grid">
-        <article className="feature-card contact-card">
-          <h2>Visibility</h2>
-          <p>Unify pricing, demand, competitor movement, and operational signals into one decision view.</p>
-        </article>
-        <article className="feature-card contact-card">
-          <h2>Signal detection</h2>
-          <p>Spot changes early with rule-based and AI-assisted monitoring across important business signals.</p>
-        </article>
-        <article className="feature-card contact-card">
-          <h2>Decision support</h2>
-          <p>Turn raw context into recommended actions, prioritized follow-ups, and clear business rationale.</p>
-        </article>
+      <div className="market-flow" aria-label="Market intelligence data sources">
+        <div className="market-source-panel">
+          <div className="market-source-header">
+            <span className="market-source-status" aria-hidden="true" />
+            <span>Live sources</span>
+          </div>
+          <div className="market-source-window">
+            <div className="market-source-track">
+              <div className="market-source-layer">
+                <span className="market-source-name">Shipping data</span>
+              </div>
+              <div className="market-source-layer">
+                <span className="market-source-name">Supplier data</span>
+              </div>
+              <div className="market-source-layer">
+                <span className="market-source-name">Market feed</span>
+              </div>
+              <div className="market-source-layer" aria-hidden="true">
+                <span className="market-source-name">Shipping data</span>
+              </div>
+            </div>
+          </div>
+          <div className="market-source-ticks" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+        <div className="market-flow-arrow" aria-hidden="true">
+          <span className="market-arrow-chevron market-arrow-chevron-primary" />
+          <span className="market-arrow-chevron market-arrow-chevron-secondary" />
+        </div>
+        <div className="market-intelligence-box">
+          <span className="market-intelligence-glow" aria-hidden="true" />
+          <span className="market-intelligence-label">Market intelligence</span>
+          <span className="market-intelligence-note">One synthesized operating view</span>
+        </div>
       </div>
     </section>
   )
