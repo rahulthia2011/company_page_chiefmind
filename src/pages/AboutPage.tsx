@@ -18,8 +18,8 @@ export default function AboutPage() {
             <div className="flow-row"><span>Judgment</span></div>
           </div>
           <div className="flow-result-arrow" aria-hidden="true">
-            <span className="constellation-arrow-line" />
-            <span className="constellation-arrow-head" />
+            <span className="market-arrow-chevron market-arrow-chevron-primary" />
+            <span className="market-arrow-chevron market-arrow-chevron-secondary" />
           </div>
           <div className="flow-result-box">Action</div>
         </div>
@@ -37,8 +37,8 @@ export default function AboutPage() {
             <div className="flow-row"><span>Cost</span></div>
           </div>
           <div className="flow-result-arrow" aria-hidden="true">
-            <span className="constellation-arrow-line" />
-            <span className="constellation-arrow-head" />
+            <span className="market-arrow-chevron market-arrow-chevron-primary" />
+            <span className="market-arrow-chevron market-arrow-chevron-secondary" />
           </div>
           <div className="flow-result-box flow-result-box-highlight">Decision Support Systems</div>
         </div>

@@ -97,8 +97,8 @@
 }
 
 .star-a { left: 12%; top: 16%; --star-size: 0.24rem; --star-color: #dff1ff; }
-.star-b { left: 44%; top: 34%; --star-size: 0.42rem; --star-color: #ffc55f; animation-delay: -1s; }
-.star-c { left: 83%; top: 46%; --star-size: 0.48rem; --star-color: #dcefff; animation-delay: -2.4s; }
+.star-b { left: 96%; top: 34%; --star-size: 0.42rem; --star-color: #ffc55f; animation-delay: -1s; }
+.star-c { left: 96%; top: 46%; --star-size: 0.48rem; --star-color: #dcefff; animation-delay: -2.4s; }
 .star-d { left: 40%; top: 96%; --star-size: 0.36rem; --star-color: #b7ddff; animation-delay: -0.8s; }
 .star-e { left: 67%; top: 26%; --star-size: 0.18rem; --star-color: #ff7d3d; animation-delay: -3.1s; }
 .star-f { left: 17%; top: 23%; --star-size: 0.2rem; --star-color: #b9dfff; animation-delay: -1.8s; }
@@ -122,7 +122,7 @@
 .constellation {
   position: absolute;
   left: 50%;
-  top: 47%;
+  top: 53%;
   width: min(58vw, 46rem);
   max-width: 88vw;
   transform: translate(-50%, -50%);
@@ -138,19 +138,19 @@
   stroke-dasharray: 900;
   stroke-dashoffset: 900;
   animation: drawConstellation 13s cubic-bezier(0.65, 0, 0.2, 1) infinite;
-  animation-delay: 3.2s;
+  animation-delay: 2s;
 }
 
 .line-two {
-  animation-delay: 3.65s;
+  animation-delay: 2.45s;
 }
 
 .line-three {
-  animation-delay: 4.1s;
+  animation-delay: 2.9s;
 }
 
 .line-four {
-  animation-delay: 4.55s;
+  animation-delay: 3.35s;
 }
 
 .constellation-star {
@@ -162,17 +162,17 @@
   transform-box: fill-box;
   transform-origin: center;
   animation: starArrive 13s ease-in-out infinite;
-  animation-delay: 4.6s;
+  animation-delay: 3.8s;
 }
 
 .constellation-star:nth-child(2n) {
   color: #ddecff;
-  animation-delay: 4.72s;
+  animation-delay: 3.92s;
 }
 
 .constellation-star:nth-child(3n) {
   color: #ffe6ad;
-  animation-delay: 4.84s;
+  animation-delay: 4.04s;
 }
 
 .constellation-star:nth-child(5n) {
@@ -278,9 +278,8 @@
   padding: 0.45rem;
   border-radius: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(3, 3, 3, 0.92);
+  background: #000000;
   box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, 0.42);
-  backdrop-filter: blur(18px);
 }
 
 .solution-group {
@@ -301,6 +300,7 @@
   gap: 0.25rem;
   padding: 0.72rem 0.75rem;
   border-radius: 0.5rem;
+  background: #000000;
   color: #f7f9ff;
   cursor: pointer;
   transition: background 0.18s ease, transform 0.18s ease;
@@ -337,6 +337,7 @@
   gap: 0.25rem;
   padding: 0.72rem 0.75rem;
   border-radius: 0.5rem;
+  background: #000000;
   color: #f7f9ff;
   text-decoration: none;
   transition: background 0.18s ease, transform 0.18s ease;
@@ -403,6 +404,10 @@
   max-width: 20rem;
 }
 
+.hero-copy .lead {
+  line-height: 1.3;
+}
+
 .lead {
   margin-top: 1.25rem;
   max-width: 20ch;
@@ -423,6 +428,10 @@
   max-width: 56rem;
 }
 
+.page-panel p {
+  text-align: justify;
+}
+
 .about-panel {
   max-width: 64rem;
 }
@@ -432,20 +441,10 @@
 }
 
 .market-description {
-  box-sizing: border-box;
   width: min(100%, 30rem);
-  min-height: 13rem;
   max-width: none;
   margin: 0;
-  padding: 1.35rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 0.8rem;
-  background: #000000;
   color: rgba(245, 245, 245, 0.82);
-  display: grid;
-  align-content: center;
-  text-align: left;
-  text-indent: 0;
   line-height: 1.55;
 }
 
@@ -584,6 +583,7 @@
 }
 
 .market-arrow-chevron {
+  display: block;
   width: 1.7rem;
   height: 2.1rem;
   flex: 0 0 auto;
@@ -641,7 +641,7 @@
   position: relative;
   max-width: 18ch;
   color: rgba(226, 231, 244, 0.62);
-  font-size: 0.9rem;
+  font-size: clamp(0.98rem, 1.6vw, 1.05rem);
   line-height: 1.35;
 }
 
@@ -807,13 +807,12 @@
 
 .flow-result-arrow {
   position: relative;
+  display: flex;
+  gap: 0.08rem;
+  align-items: center;
+  justify-content: center;
   align-self: center;
   height: 1.5rem;
-}
-
-.flow-result-arrow .constellation-arrow-line {
-  left: 0;
-  right: 0.8rem;
 }
 
 .flow-result-box {
@@ -889,7 +888,7 @@
 
 .principle-list h3,
 .team-member h3 {
-  margin: 1.5rem 0 0.45rem;
+  margin: 0.5rem 0 0.45rem;
   color: #f5f7ff;
   font-size: 1rem;
   line-height: 1.2;
@@ -1366,8 +1365,24 @@
 
   .feature-grid,
   .info-links,
-  .contact-grid {
+  .contact-grid,
+  .contact-showcase {
     grid-template-columns: 1fr;
+  }
+
+  .contact-showcase {
+    width: 100%;
+    align-items: start;
+  }
+
+  .contact-card {
+    box-sizing: border-box;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .contact-link {
+    overflow-wrap: anywhere;
   }
 
   .about-constellation,
@@ -1413,6 +1428,25 @@
     grid-template-columns: 1fr;
   }
 
+  .principle-list {
+    grid-auto-rows: max-content;
+    align-content: start;
+  }
+
+  .principle-list article {
+    padding: 0.75rem;
+  }
+
+  .principle-list h3 {
+    margin: 0.35rem 0 0.3rem;
+    font-size: 0.92rem;
+  }
+
+  .principle-list p {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
   .about-constellation::before {
     display: none;
   }
@@ -1435,9 +1469,10 @@
   }
 
   .top-nav {
+    position: relative;
     align-self: stretch;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .nav-tab {
@@ -1446,24 +1481,59 @@
 
   .solutions-dropdown {
     display: grid;
+    position: static;
   }
 
   .solutions-panel {
     left: 0;
-    right: auto;
-    width: min(21rem, calc(100vw - 2rem));
+    right: 0;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .solution-trigger span,
+  .solution-trigger small,
+  .solution-link span,
+  .solution-link small {
+    overflow-wrap: anywhere;
   }
 
   .constellation {
-    left: 72%;
-    top: 43%;
-    width: 44rem;
-    opacity: 0.42;
+    left: 50%;
+    top: 49%;
+    width: min(140vw, 38rem);
+    max-width: none;
+    opacity: 0.34;
+  }
+
+  .content {
+    padding: 3.6rem 1rem 2.5rem;
+  }
+
+  .hero-title {
+    max-width: 14ch;
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .lead {
+    max-width: 23ch;
   }
 
   .cta-row {
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
+  }
+
+  .cta-row > * {
+    box-sizing: border-box;
+    width: min(100%, 18rem);
+    justify-content: center;
+  }
+
+  .contact-actions {
+    align-items: center;
   }
 
   .niche-flow {

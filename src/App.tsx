@@ -5,10 +5,15 @@ import { Button } from '@/components/ui/button'
 import { buttonVariants } from '@/components/ui/button-variants'
 import './App.css'
 
-const AboutPage = lazy(() => import('@/pages/AboutPage'))
-const ContactPage = lazy(() => import('@/pages/ContactPage'))
-const RealMarketPage = lazy(() => import('@/pages/RealMarketPage'))
-const RealChannelPage = lazy(() => import('@/pages/RealChannelPage'))
+const loadAboutPage = () => import('@/pages/AboutPage')
+const loadContactPage = () => import('@/pages/ContactPage')
+const loadRealMarketPage = () => import('@/pages/RealMarketPage')
+const loadRealChannelPage = () => import('@/pages/RealChannelPage')
+
+const AboutPage = lazy(loadAboutPage)
+const ContactPage = lazy(loadContactPage)
+const RealMarketPage = lazy(loadRealMarketPage)
+const RealChannelPage = lazy(loadRealChannelPage)
 
 type ProductLink = {
   name: string
@@ -83,7 +88,7 @@ const getProductHash = (name: string) => {
     return '#real-channel'
   }
 
-  return '#top'
+  return '#home'
 }
 
 const getCurrentPage = (): Page => {
@@ -92,6 +97,8 @@ const getCurrentPage = (): Page => {
   }
 
   switch (window.location.hash) {
+    case '#home':
+      return 'home'
     case '#about':
       return 'about'
     case '#contact':
@@ -109,6 +116,38 @@ function App() {
   const solutionsDropdownRef = useRef<HTMLDetailsElement>(null)
   const [page, setPage] = useState<Page>(getCurrentPage)
 
+  const closeSolutionsDropdown = () => {
+    const dropdown = solutionsDropdownRef.current
+
+    if (!dropdown) {
+      return
+    }
+
+    dropdown.removeAttribute('open')
+    dropdown.querySelectorAll('details[open]').forEach((detail) => {
+      detail.removeAttribute('open')
+    })
+  }
+
+  const handleInternalNavigation = (event: React.MouseEvent<HTMLDivElement>) => {
+    const link = (event.target as Element).closest('a[href^="#"]')
+    const hash = link?.getAttribute('href')
+
+    if (!hash) {
+      return
+    }
+
+    event.preventDefault()
+
+    if (window.location.hash !== hash) {
+      window.history.pushState(null, '', hash)
+    }
+
+    setPage(getCurrentPage())
+    closeSolutionsDropdown()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
       const dropdown = solutionsDropdownRef.current
@@ -117,11 +156,7 @@ function App() {
         return
       }
 
-      dropdown.removeAttribute('open')
-
-      dropdown.querySelectorAll('details[open]').forEach((detail) => {
-        detail.removeAttribute('open')
-      })
+      closeSolutionsDropdown()
     }
 
     const handleHashChange = () => {
@@ -132,7 +167,31 @@ function App() {
     document.addEventListener('pointerdown', handlePointerDown)
     window.addEventListener('hashchange', handleHashChange)
 
+    const preloadPages = () => {
+      loadAboutPage()
+      loadContactPage()
+      loadRealMarketPage()
+      loadRealChannelPage()
+    }
+
+    let idleId: number | undefined
+    let preloadTimeout: number | undefined
+
+    if (typeof window.requestIdleCallback === 'function') {
+      idleId = window.requestIdleCallback(preloadPages, { timeout: 1500 })
+    } else {
+      preloadTimeout = window.setTimeout(preloadPages, 800)
+    }
+
     return () => {
+      if (idleId !== undefined) {
+        window.cancelIdleCallback?.(idleId)
+      }
+
+      if (preloadTimeout !== undefined) {
+        window.clearTimeout(preloadTimeout)
+      }
+
       document.removeEventListener('pointerdown', handlePointerDown)
       window.removeEventListener('hashchange', handleHashChange)
     }
@@ -144,7 +203,7 @@ function App() {
   const isRealChannelPage = page === 'real-channel'
 
   return (
-    <div className="site-shell">
+    <div className="site-shell" onClick={handleInternalNavigation}>
       <div className="bg-layer" aria-hidden="true">
         <div className="star-field">
           <div className="random-stars">
@@ -202,12 +261,15 @@ function App() {
       </div>
 
       <header className="site-header">
-        <a className="brand-mark" href="#top" aria-label="Chiefmind home">
+        <a className="brand-mark" href="#home" aria-label="Chiefmind home">
           Chiefmind
         </a>
         <nav className="top-nav" aria-label="Primary navigation">
           <a className={`nav-tab${isAboutPage ? ' nav-tab-active' : ''}`} href="#about" aria-current={isAboutPage ? 'page' : undefined}>About Us</a>
-          <details className="solutions-dropdown" ref={solutionsDropdownRef}>
+          <details
+            className="solutions-dropdown"
+            ref={solutionsDropdownRef}
+          >
             <summary className="nav-tab">
               <span>Solutions</span>
               <ChevronDown size={16} aria-hidden="true" />
@@ -230,7 +292,7 @@ function App() {
                     </div>
                   </details>
                 ) : (
-                  <a className="solution-link" href="#top" key={product.name}>
+                  <a className="solution-link" href="#home" key={product.name}>
                     <span>{product.name}</span>
                     <small>{product.description}</small>
                   </a>
@@ -242,7 +304,7 @@ function App() {
         </nav>
       </header>
 
-      <main className="content" id="top">
+      <main className="content" id="home">
         {page === 'home' ? (
           <>
             <h1 className="hero-title">
