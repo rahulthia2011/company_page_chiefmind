@@ -71,10 +71,6 @@ const productDropdowns: ProductLink[] = [
         name: 'Chiefmind™ REAL - Market',
         description: 'Market intelligence workflows for visibility, signals, and decision support.',
       },
-      {
-        name: 'Chiefmind™ REAL - Channel',
-        description: 'Channel-aware operational coordination across partners, updates, and distribution signals.',
-      },
     ],
   },
 ]
