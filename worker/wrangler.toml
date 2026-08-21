@@ -19,7 +19,7 @@ ENFORCE_HTTPS = "true"
 [[d1_databases]]
 binding = "DB"
 database_name = "chiefmind_intake"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "e03e31b0-af21-4b34-9ccc-498ca771eaa0"
 migrations_dir = "migrations"
 
 # Rate limit: 10 POSTs per 60s per client IP. Namespace IDs are per-account; pick unique ints.
@@ -42,7 +42,7 @@ ENFORCE_HTTPS = "true"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "chiefmind_intake"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "e03e31b0-af21-4b34-9ccc-498ca771eaa0"
 migrations_dir = "migrations"
 
 [[env.production.unsafe.bindings]]
