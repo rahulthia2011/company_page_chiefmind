@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button-variants'
 
@@ -12,16 +13,14 @@ export default function AboutPage() {
           </h1>
         </div>
         <div className="flow-composition" aria-label="Chiefmind company model">
-          <div className="flow-stack">
-            <div className="flow-row"><span>Signals</span></div>
-            <div className="flow-row flow-row-focus"><span>Turn scattered business reality into one navigable system.</span></div>
-            <div className="flow-row"><span>Judgment</span></div>
+          <div className="flow-stack flow-signal-grid">
+            <div className="signal-tile" style={{ '--w': 11, '--h': 2 } as CSSProperties}><span>market feed</span></div>
+            <div className="signal-tile" style={{ '--w': 13, '--h': 2 } as CSSProperties}><span>maritime data</span></div>
+            <div className="signal-tile" style={{ '--w': 12, '--h': 1 } as CSSProperties}><span>supply chain</span></div>
+            <div className="signal-tile" style={{ '--w': 14, '--h': 1 } as CSSProperties}><span>remote sensing</span></div>
+            <div className="signal-tile" style={{ '--w': 13, '--h': 0, fontSize: '1.75rem' } as CSSProperties}><span>sensor fusion</span></div>
+            <div className="signal-tile" style={{ '--w': 17, '--h': 0 } as CSSProperties}><span>transport systems</span></div>
           </div>
-          <div className="flow-result-arrow" aria-hidden="true">
-            <span className="market-arrow-chevron market-arrow-chevron-primary" />
-            <span className="market-arrow-chevron market-arrow-chevron-secondary" />
-          </div>
-          <div className="flow-result-box">Action</div>
         </div>
       </section>
 
@@ -30,17 +29,15 @@ export default function AboutPage() {
           <p className="niche-label">Built for the uncommon</p>
           <h2 id="niche-title">We build what off-the-shelf software cannot solve.</h2>
         </div>
-        <div className="flow-composition" aria-label="How Chiefmind builds custom enterprise intelligence">
-          <div className="flow-stack">
-            <div className="flow-row"><span>Heavy Customization</span></div>
-            <div className="flow-row"><span>Deep Context</span></div>
-            <div className="flow-row"><span>Cost</span></div>
+        <div className="flow-composition" aria-label="What Chiefmind delivers for uncommon problems">
+          <div className="flow-stack flow-signal-grid">
+            <div className="signal-tile" style={{ '--w': 19, '--h': 2 } as CSSProperties}><span>neural net training</span></div>
+            <div className="signal-tile" style={{ '--w': 19, '--h': 2 } as CSSProperties}><span>intelligent systems</span></div>
+            <div className="signal-tile" style={{ '--w': 15, '--h': 1 } as CSSProperties}><span>agentic systems</span></div>
+            <div className="signal-tile" style={{ '--w': 17, '--h': 1 } as CSSProperties}><span>data distribution</span></div>
+            <div className="signal-tile" style={{ '--w': 13, '--h': 0 } as CSSProperties}><span>reports</span></div>
+            <div className="signal-tile" style={{ '--w': 13, '--h': 0 } as CSSProperties}><span>alerts</span></div>
           </div>
-          <div className="flow-result-arrow" aria-hidden="true">
-            <span className="market-arrow-chevron market-arrow-chevron-primary" />
-            <span className="market-arrow-chevron market-arrow-chevron-secondary" />
-          </div>
-          <div className="flow-result-box flow-result-box-highlight">Decision Support Systems</div>
         </div>
       </section>
 

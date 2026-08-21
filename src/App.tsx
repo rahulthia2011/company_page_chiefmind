@@ -296,7 +296,7 @@ function App() {
               ))}
             </div>
           </details>
-          <a className={`nav-tab${isContactPage ? ' nav-tab-active' : ''}`} href="#contact" aria-current={isContactPage ? 'page' : undefined}>Contact</a>
+          <a className={`nav-tab${isContactPage ? ' nav-tab-active' : ''}`} href="#contact" aria-current={isContactPage ? 'page' : undefined}>Contact Us</a>
         </nav>
       </header>
 
