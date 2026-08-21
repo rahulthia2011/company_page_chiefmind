@@ -91,38 +91,47 @@ Environments defined:
 - `staging` → `chiefmind-intake-staging.<account>.workers.dev`
 - `production` → routed at `api.chiefmind.io/intake*` (custom domain, auto TLS)
 
+> **Deployment note.** For production the repo also ships a root
+> [`wrangler.jsonc`](../wrangler.jsonc) that Cloudflare Workers Builds uses to deploy the
+> site (from `./dist`) and this Worker together as a single project. See
+> [Deployment](#deployment) below. The `worker/wrangler.toml` here is kept for local dev
+> (`wrangler dev` from inside `worker/`) and stand-alone deploys.
+
 ## Deployment
+
+The recommended deployment is Cloudflare's git-connected **Workers Builds**, driven by the
+root [`wrangler.jsonc`](../wrangler.jsonc). One Worker serves both the built site
+(as static assets from `./dist`) and the intake API (`/intake`, `/health`).
 
 ### 1. Prerequisites
 
 - A Cloudflare account with the target zone (`chiefmind.io`) added.
 - `wrangler` authenticated: `npx wrangler login`.
 
-### 2. Create the D1 databases
+### 2. Create the D1 database
 
 ```sh
-cd worker
 npx wrangler d1 create chiefmind_intake
-npx wrangler d1 create chiefmind_intake_staging
 ```
 
-Copy each printed `database_id` into the matching `[[d1_databases]]` block in
-[wrangler.toml](wrangler.toml).
+Paste the printed `database_id` into **both**:
+
+- root [`wrangler.jsonc`](../wrangler.jsonc) — used by Cloudflare Workers Builds.
+- [`worker/wrangler.toml`](wrangler.toml) — used for local `wrangler dev`.
 
 ### 3. Apply migrations to remote D1
 
 ```sh
+# from repo root — uses wrangler.jsonc
 npx wrangler d1 migrations apply chiefmind_intake --remote
-npx wrangler d1 migrations apply chiefmind_intake_staging --remote --env staging
 ```
 
-### 4. Set secrets
+### 4. Set secrets on the unified Worker
 
 ```sh
-npx wrangler secret put IP_HASH_SALT --env production
-npx wrangler secret put IP_HASH_SALT --env staging
-npx wrangler secret put TURNSTILE_SECRET --env production
-npx wrangler secret put TURNSTILE_SECRET --env staging
+# from repo root — targets the "chiefmind" Worker defined in wrangler.jsonc
+npx wrangler secret put IP_HASH_SALT
+npx wrangler secret put TURNSTILE_SECRET
 ```
 
 Grab the Turnstile secret + site key from the Cloudflare dashboard →
@@ -130,28 +139,38 @@ Grab the Turnstile secret + site key from the Cloudflare dashboard →
 `VITE_TURNSTILE_SITE_KEY` on the frontend; the secret must only ever live in
 `wrangler secret`.
 
-### 5. Deploy
+### 5. Connect the repo to Cloudflare Workers Builds
 
-```sh
-npx wrangler deploy --env staging
-npx wrangler deploy --env production
-```
+Dashboard → **Workers & Pages → Create → Connect to Git** → pick the repo.
 
-The production deploy attaches the Worker to `api.chiefmind.io/intake*`. Cloudflare issues
-and renews the TLS certificate automatically. Enable **SSL/TLS → Edge Certificates → Always
-Use HTTPS** and **Automatic HTTPS Rewrites** in the zone dashboard to force HTTPS for any
-mixed-content edge cases.
+| Setting                | Value              |
+| ---------------------- | ------------------ |
+| Build command          | `npm run build`    |
+| Deploy command         | `npx wrangler deploy` (default; leave unset) |
+| Root directory         | `/`                |
+| Node version           | `20` (set `NODE_VERSION=20` under Variables) |
 
-### 6. Point the frontend at the Worker
+Add these variables on the project:
 
-Add to `.env.production` (or the hosting platform's env vars) in the repo root:
+| Name                     | Kind      | Notes                                    |
+| ------------------------ | --------- | ---------------------------------------- |
+| `VITE_INTAKE_ENDPOINT`   | Variable  | `/intake` (same-origin, default in code) |
+| `VITE_TURNSTILE_SITE_KEY`| Variable  | Public Turnstile site key                |
+| `NODE_VERSION`           | Variable  | `20`                                     |
 
-```
-VITE_INTAKE_ENDPOINT=https://api.chiefmind.io/intake
-VITE_TURNSTILE_SITE_KEY=<public-site-key>
-```
+Push to the connected branch. Cloudflare will:
 
-Rebuild the site (`npm run build`) so the values are baked into the client bundle.
+1. Run `npm run build` → static site in `./dist`.
+2. Detect `wrangler.jsonc` at the root.
+3. Run `npx wrangler deploy` → uploads the Worker + assets binding to the same project.
+
+Every subsequent push updates the same Worker (the deploy is idempotent).
+
+### 6. Frontend endpoint
+
+Because the site and the Worker share an origin, the frontend defaults to a same-origin
+`/intake`. You only need to set `VITE_INTAKE_ENDPOINT` explicitly if you split them onto
+separate origins (e.g. keeping Pages for the site and a Worker at `api.chiefmind.io`).
 
 ## Inspecting data
 
@@ -168,59 +187,21 @@ npx wrangler rollback --env production
 
 ## Automation — deploy on build
 
-Deployment is fully driven by the Cloudflare Pages build. Every push that triggers a Pages
-build also creates-or-updates the Worker (idempotent), so there is no separate CI to
-maintain.
-
-### Cloudflare Pages build hook
-
-The root [`package.json`](../package.json) exposes a `build:cf` script:
+Deployment is fully driven by Cloudflare Workers Builds using the root
+[`wrangler.jsonc`](../wrangler.jsonc). Every push to the connected branch runs:
 
 ```
-npm run build:cf
+npm run build          # site → ./dist
+npx wrangler deploy    # uploads Worker + assets binding
 ```
 
-It runs the normal Vite build, then invokes
-[`scripts/deploy-worker-if-configured.mjs`](../scripts/deploy-worker-if-configured.mjs) which:
-
-1. Skips silently unless `CLOUDFLARE_API_TOKEN` **and** `CLOUDFLARE_ACCOUNT_ID` are set
-   (so local `npm run build:cf` still works with no credentials).
-2. Runs `npm ci` inside `worker/`.
-3. Applies remote D1 migrations for the target environment.
-4. Runs `wrangler deploy --env <target>` — creates the Worker if missing, updates it otherwise.
-
-Cloudflare Pages configuration:
-
-| Setting                | Value                                                          |
-| ---------------------- | -------------------------------------------------------------- |
-| Build command          | `npm run build:cf`                                             |
-| Build output directory | `dist`                                                         |
-| Root directory         | `/`                                                            |
-| Node version           | `20` (set `NODE_VERSION=20` in Pages env vars)                 |
-
-Required Pages environment variables (Settings → Environment variables):
-
-| Name                     | Scope             | Notes                                          |
-| ------------------------ | ----------------- | ---------------------------------------------- |
-| `CLOUDFLARE_API_TOKEN`   | Prod + Preview    | Token with **Workers Scripts: Edit** + **D1: Edit** on the account. Mark as secret. |
-| `CLOUDFLARE_ACCOUNT_ID`  | Prod + Preview    | Cloudflare account ID.                         |
-| `CF_WORKER_ENV`          | Optional          | Force target env (`production` / `staging`). Otherwise inferred from `CF_PAGES_BRANCH`. |
-| `VITE_INTAKE_ENDPOINT`   | Prod + Preview    | e.g. `https://api.chiefmind.io/intake`         |
-| `VITE_TURNSTILE_SITE_KEY`| Prod + Preview    | Public Turnstile site key.                     |
-| `SKIP_WORKER_DEPLOY`     | Optional          | Set to `1` on a branch to skip Worker deploy.  |
-
-Branch → env mapping used by the script when `CF_WORKER_ENV` is unset:
-
-- `main` / `master` / `production` → `production`
-- `staging` / `develop` → `staging`
-- anything else → `production` (change in the script if needed)
-
-Trigger a deploy from the dashboard **Deployments → Retry deployment**, or by pushing to the
-connected branch. First Pages build creates the Worker; every subsequent build updates it.
+First push creates the Worker, subsequent pushes update it — no separate CI to maintain.
 
 ### Local one-shot equivalent
 
 ```sh
-CLOUDFLARE_API_TOKEN=… CLOUDFLARE_ACCOUNT_ID=… CF_WORKER_ENV=production \
-  npm run worker:sync
+npm run worker:sync
 ```
+
+Runs `npm run build && wrangler d1 migrations apply --remote && wrangler deploy` from the
+repo root using [`wrangler.jsonc`](../wrangler.jsonc).

@@ -119,7 +119,7 @@ const emptyValues: Record<FieldKey, string> = {
 
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
 
-const INTAKE_ENDPOINT = import.meta.env.VITE_INTAKE_ENDPOINT ?? ''
+const INTAKE_ENDPOINT = import.meta.env.VITE_INTAKE_ENDPOINT ?? '/intake'
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ''
 const TURNSTILE_SCRIPT_URL =
   'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
@@ -169,7 +169,8 @@ const loadTurnstileScript = () => {
 
 const isSecureEndpoint = (endpoint: string) => {
   try {
-    const url = new URL(endpoint)
+    const base = typeof window !== 'undefined' ? window.location.href : 'https://localhost/'
+    const url = new URL(endpoint, base)
     if (url.protocol === 'https:') return true
     return url.hostname === 'localhost' || url.hostname === '127.0.0.1'
   } catch {
