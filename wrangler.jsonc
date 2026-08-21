@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "chiefmind",
+  "name": "company-page-chiefmind",
   "main": "worker/src/index.ts",
   "compatibility_date": "2025-01-15",
   "compatibility_flags": ["nodejs_compat"],

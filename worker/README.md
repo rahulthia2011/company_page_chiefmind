@@ -88,7 +88,7 @@ All configuration lives in [wrangler.toml](wrangler.toml).
 Environments defined:
 
 - default (dev on `*.workers.dev`)
-- `staging` → `chiefmind-intake-staging.<account>.workers.dev`
+- `staging` → `company-page-chiefmind-staging.<account>.workers.dev`
 - `production` → routed at `api.chiefmind.io/intake*` (custom domain, auto TLS)
 
 > **Deployment note.** For production the repo also ships a root
@@ -129,7 +129,7 @@ npx wrangler d1 migrations apply chiefmind_intake --remote
 ### 4. Set secrets on the unified Worker
 
 ```sh
-# from repo root — targets the "chiefmind" Worker defined in wrangler.jsonc
+# from repo root — targets the "company-page-chiefmind" Worker defined in wrangler.jsonc
 npx wrangler secret put IP_HASH_SALT
 npx wrangler secret put TURNSTILE_SECRET
 ```
