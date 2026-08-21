@@ -302,7 +302,7 @@ function App() {
 
       <main className="content" id="home">
         {page === 'home' ? (
-          <>
+          <div className="page-fade-left">
             <h1 className="hero-title">
               Where intelligent systems take shape
             </h1>
@@ -321,30 +321,30 @@ function App() {
                 </a>
               </div>
             </div>
-          </>
+          </div>
         ) : null}
 
         {isAboutPage ? (
-          <Suspense fallback={<section className="page-panel about-panel"><p className="eyebrow">Loading</p></section>}>
-            <AboutPage />
+          <Suspense fallback={null}>
+            <div className="page-fade-left"><AboutPage /></div>
           </Suspense>
         ) : null}
 
         {isRealMarketPage ? (
-          <Suspense fallback={<section className="page-panel"><p className="eyebrow">Loading</p></section>}>
-            <RealMarketPage />
+          <Suspense fallback={null}>
+            <div className="page-fade-left"><RealMarketPage /></div>
           </Suspense>
         ) : null}
 
         {isRealChannelPage ? (
-          <Suspense fallback={<section className="page-panel"><p className="eyebrow">Loading</p></section>}>
-            <RealChannelPage />
+          <Suspense fallback={null}>
+            <div className="page-fade-left"><RealChannelPage /></div>
           </Suspense>
         ) : null}
 
         {isContactPage ? (
-          <Suspense fallback={<section className="page-panel"><p className="eyebrow">Loading</p></section>}>
-            <ContactPage />
+          <Suspense fallback={null}>
+            <div className="page-fade-left"><ContactPage /></div>
           </Suspense>
         ) : null}
       </main>

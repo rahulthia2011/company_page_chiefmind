@@ -187,7 +187,7 @@
 
 .site-header {
   position: relative;
-  z-index: 4;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -215,7 +215,7 @@
   padding: 0.28rem;
   border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: transparent;
+  background: #000000;
   box-shadow: none;
   backdrop-filter: none;
 }
@@ -254,7 +254,7 @@
 .nav-tab-active,
 .solutions-dropdown[open] .nav-tab {
   border-color: rgba(255, 255, 255, 0.2);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
 
@@ -272,13 +272,14 @@
   position: absolute;
   right: 0;
   top: calc(100% + 0.55rem);
+  z-index: 20;
   display: grid;
   gap: 0.35rem;
   width: min(21rem, calc(100vw - 2rem));
   padding: 0.45rem;
   border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: transparent;
+  background: #000000;
   box-shadow: none;
 }
 
@@ -301,7 +302,7 @@
   padding: 0.72rem 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 0;
-  background: transparent;
+  background: #000000;
   color: #f7f9ff;
   cursor: pointer;
   transition: background 0.18s ease, transform 0.18s ease;
@@ -309,7 +310,7 @@
 
 .solution-trigger:hover,
 .solution-group[open] .solution-trigger {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.09);
   transform: none;
 }
 
@@ -339,14 +340,14 @@
   padding: 0.72rem 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 0;
-  background: transparent;
+  background: #000000;
   color: #f7f9ff;
   text-decoration: none;
   transition: background 0.18s ease, transform 0.18s ease;
 }
 
 .solution-link:hover {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.09);
   transform: none;
 }
 
@@ -375,6 +376,10 @@
   margin-left: min(8vw, 5.5rem);
   animation: fadeSlide 0.9s ease-out;
   text-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.86);
+}
+
+.page-fade-left {
+  animation: pageFadeLeft 1.2s ease-out;
 }
 
 .eyebrow {
@@ -452,22 +457,25 @@
 
 .market-flow {
   display: grid;
-  grid-template-columns: minmax(14rem, 1fr) 6.5rem minmax(11rem, 0.85fr);
-  gap: 1.15rem;
+  grid-template-columns: minmax(24rem, 1.9fr) 6.5rem minmax(11rem, 0.7fr);
+  gap: 1.6rem;
   align-items: center;
-  max-width: 52rem;
-  margin-top: 1.4rem;
+  justify-content: center;
+  max-width: 64rem;
+  margin: 1.4rem auto 0;
 }
 
 .market-source-panel {
   position: relative;
   box-sizing: border-box;
-  height: 12rem;
-  padding: 0.85rem 0.85rem 0.7rem;
+  display: grid;
+  align-content: center;
+  height: 8.6rem;
+  padding: 0.85rem;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 0;
-  background: transparent;
+  background: #000000;
   box-shadow: none;
   backdrop-filter: none;
 }
@@ -504,8 +512,7 @@
 
 .market-source-window {
   position: relative;
-  height: 7.4rem;
-  margin-top: 0.7rem;
+  height: 5.4rem;
   overflow: hidden;
   mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
 }
@@ -519,7 +526,7 @@
   align-content: center;
   justify-items: start;
   gap: 0.2rem;
-  height: 7.4rem;
+  height: 5.4rem;
   padding: 0 0.35rem;
   color: #f5f7ff;
 }
@@ -563,14 +570,6 @@
   animation: marketTick 18s linear infinite;
 }
 
-.market-source-ticks span:nth-child(2)::after {
-  animation-delay: 6s;
-}
-
-.market-source-ticks span:nth-child(3)::after {
-  animation-delay: 12s;
-}
-
 .market-flow-arrow {
   position: relative;
   display: flex;
@@ -601,6 +600,10 @@
   opacity: 0.9;
 }
 
+.market-intelligence-cluster {
+  position: relative;
+}
+
 .market-intelligence-box {
   position: relative;
   box-sizing: border-box;
@@ -613,11 +616,126 @@
   overflow: hidden;
   border: 1px solid rgba(220, 220, 220, 0.34);
   border-radius: 0;
-  background: transparent;
+  background: #000000;
   color: #f5f7ff;
   text-align: center;
   box-shadow: none;
   backdrop-filter: none;
+  transition: color 0.8s ease;
+}
+
+/* Slanted white fill wipes in from the left on hover. */
+.market-intelligence-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -2rem;
+  right: -2rem;
+  background: #ffffff;
+  transform: translateX(-105%) skewX(-18deg);
+  transition: transform 0.95s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.market-intelligence-cluster:hover .market-intelligence-box {
+  color: #000000;
+}
+
+.market-intelligence-cluster:hover .market-intelligence-box::before {
+  transform: translateX(0) skewX(-18deg);
+}
+
+.market-intelligence-cluster:hover .market-intelligence-note {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Connected capability boxes revealed on hover. */
+.market-intelligence-nodes {
+  --node-gap: 0.5rem;
+  --branch-drop: 0.9rem;
+  position: absolute;
+  top: calc(100% + 1.8rem);
+  left: 50%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--node-gap);
+  width: max(100%, 18rem);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -0.75rem) scale(0.92);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Trunk dropping from the parent box down to the branch bus. */
+.market-intelligence-nodes::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(-1.8rem);
+  width: 1px;
+  height: calc(1.8rem - var(--branch-drop));
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Bus spanning exactly between the two branch centers. */
+.market-intelligence-nodes::after {
+  content: '';
+  position: absolute;
+  left: calc((100% - var(--node-gap)) / 4);
+  right: calc((100% - var(--node-gap)) / 4);
+  top: calc(-1 * var(--branch-drop));
+  height: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.market-intelligence-cluster:hover .market-intelligence-nodes {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.market-node-col {
+  position: relative;
+  display: grid;
+  gap: var(--node-gap);
+}
+
+/* Stub from the bus down into each branch. */
+.market-node-col::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--branch-drop));
+  width: 1px;
+  height: var(--branch-drop);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.market-node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 3rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #000000;
+  color: #f5f7ff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Link each box to the one above it in the same branch. */
+.market-node + .market-node::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--node-gap));
+  width: 1px;
+  height: var(--node-gap);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .market-intelligence-glow {
@@ -792,6 +910,7 @@
 
 /* Box width and font scale with word length via the --w variable. */
 .signal-tile {
+  position: relative;
   display: grid;
   place-items: center;
   flex: var(--w, 10) 1 auto;
@@ -811,6 +930,33 @@
   text-transform: capitalize;
   white-space: nowrap;
   font-size: clamp(0.8rem, calc(0.55rem + var(--w, 10) * 0.05rem + var(--h, 0) * 0.18rem), 1.9rem);
+  overflow: hidden;
+  transition: color 0.8s ease;
+}
+
+/* Slanted white fill wipes in from the left on hover. */
+.signal-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1.5rem;
+  right: -1.5rem;
+  background: #ffffff;
+  transform: translateX(-105%) skewX(-18deg);
+  transition: transform 0.95s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.signal-tile > * {
+  position: relative;
+}
+
+.signal-tile:hover {
+  color: #000000;
+}
+
+.signal-tile:hover::before {
+  transform: translateX(0) skewX(-18deg);
 }
 
 .flow-row {
@@ -984,12 +1130,17 @@
   gap: 0.8rem;
 }
 
+.contact-showcase .feature-card {
+  background: #000000;
+}
+
 .contact-card {
   min-height: 100%;
+  background: #000000;
 }
 
 .contact-card-primary {
-  background: transparent;
+  background: #000000;
   border-color: rgba(165, 210, 255, 0.28);
 }
 
@@ -1000,7 +1151,7 @@
   height: 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 0;
-  background: transparent;
+  background: #000000;
   color: #f5f9ff;
   margin-bottom: 0.8rem;
 }
@@ -1230,6 +1381,23 @@
   }
 }
 
+@keyframes pageFadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-fade-left {
+    animation: none;
+  }
+}
+
 @keyframes constellationFocusPulse {
   0%,
   100% {
@@ -1305,15 +1473,15 @@
   }
   24%,
   40% {
-    transform: translateY(-7.4rem);
+    transform: translateY(-5.4rem);
   }
   52%,
   68% {
-    transform: translateY(-14.8rem);
+    transform: translateY(-10.8rem);
   }
   80%,
   100% {
-    transform: translateY(-22.2rem);
+    transform: translateY(-16.2rem);
   }
 }
 
@@ -1321,13 +1489,8 @@
   0% {
     transform: scaleX(0);
   }
-  22%,
-  33% {
-    transform: scaleX(1);
-  }
-  34%,
   100% {
-    transform: scaleX(0);
+    transform: scaleX(1);
   }
 }
 

@@ -9,29 +9,23 @@ export default function RealMarketPage() {
       </p>
       <div className="market-flow" aria-label="Market intelligence data sources">
         <div className="market-source-panel">
-          <div className="market-source-header">
-            <span className="market-source-status" aria-hidden="true" />
-            <span>Live sources</span>
-          </div>
           <div className="market-source-window">
             <div className="market-source-track">
               <div className="market-source-layer">
-                <span className="market-source-name">Shipping data</span>
+                <span className="market-source-name">Market, Supplier and Logistics data</span>
               </div>
               <div className="market-source-layer">
-                <span className="market-source-name">Supplier data</span>
+                <span className="market-source-name">Ontology</span>
               </div>
               <div className="market-source-layer">
-                <span className="market-source-name">Market feed</span>
+                <span className="market-source-name">Decision Support System</span>
               </div>
               <div className="market-source-layer" aria-hidden="true">
-                <span className="market-source-name">Shipping data</span>
+                <span className="market-source-name">Market, Supplier and Logistics data</span>
               </div>
             </div>
           </div>
           <div className="market-source-ticks" aria-hidden="true">
-            <span />
-            <span />
             <span />
           </div>
         </div>
@@ -39,10 +33,21 @@ export default function RealMarketPage() {
           <span className="market-arrow-chevron market-arrow-chevron-primary" />
           <span className="market-arrow-chevron market-arrow-chevron-secondary" />
         </div>
-        <div className="market-intelligence-box">
-          <span className="market-intelligence-glow" aria-hidden="true" />
-          <span className="market-intelligence-label">Market intelligence</span>
-          <span className="market-intelligence-note">One synthesized operating view</span>
+        <div className="market-intelligence-cluster">
+          <div className="market-intelligence-box">
+            <span className="market-intelligence-label">Market intelligence</span>
+            <span className="market-intelligence-note">One synthesized operating view</span>
+          </div>
+          <div className="market-intelligence-nodes" aria-hidden="true">
+            <div className="market-node-col">
+              <span className="market-node">Risk</span>
+              <span className="market-node">Compliance</span>
+            </div>
+            <div className="market-node-col">
+              <span className="market-node">Investment Analysis</span>
+              <span className="market-node">Rule checking</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
