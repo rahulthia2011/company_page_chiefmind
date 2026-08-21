@@ -23,7 +23,7 @@
     {
       "binding": "DB",
       "database_name": "chiefmind_intake",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "e03e31b0-af21-4b34-9ccc-498ca771eaa0",
       "migrations_dir": "worker/migrations"
     }
   ],
