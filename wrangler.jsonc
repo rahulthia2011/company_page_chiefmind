@@ -14,7 +14,7 @@
   },
 
   "vars": {
-    "ALLOWED_ORIGINS": "https://chiefmind.io,https://www.chiefmind.io",
+    "ALLOWED_ORIGINS": "https://chiefmind.io,https://www.chiefmind.io,http://localhost:5173,http://127.0.0.1:5173",
     "MAX_BODY_BYTES": "16384",
     "ENFORCE_HTTPS": "true"
   },
