@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "worker:install": "npm --prefix worker ci --no-audit --no-fund || npm --prefix worker install --no-audit --no-fund",
+    "worker:migrate": "npm --prefix worker exec -- wrangler d1 migrations apply chiefmind_intake --remote --env $CF_WORKER_ENV",
+    "worker:deploy": "npm --prefix worker exec -- wrangler deploy --env $CF_WORKER_ENV",
+    "worker:sync": "npm run worker:install && npm run worker:migrate && npm run worker:deploy",
+    "build:cf": "npm run build && node scripts/deploy-worker-if-configured.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
