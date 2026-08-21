@@ -1,4 +1,4 @@
-name = "chiefmind-intake"
+name = "company-page-chiefmind"
 main = "src/index.ts"
 compatibility_date = "2025-01-15"
 compatibility_flags = ["nodejs_compat"]
@@ -31,7 +31,7 @@ simple = { limit = 10, period = 60 }
 
 # ---------- Production environment ----------
 [env.production]
-name = "chiefmind-intake-prod"
+name = "company-page-chiefmind-prod"
 workers_dev = false
 
 [env.production.vars]
@@ -59,7 +59,7 @@ custom_domain = true
 
 # ---------- Staging environment ----------
 [env.staging]
-name = "chiefmind-intake-staging"
+name = "company-page-chiefmind-staging"
 workers_dev = true
 
 [env.staging.vars]
