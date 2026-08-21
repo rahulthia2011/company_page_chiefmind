@@ -8,11 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "cf:inject-d1-id": "node scripts/inject-d1-id.mjs",
     "worker:install": "npm --prefix worker ci --no-audit --no-fund || npm --prefix worker install --no-audit --no-fund",
     "worker:migrate": "npx --yes wrangler d1 migrations apply chiefmind_intake --remote",
     "worker:deploy": "npx --yes wrangler deploy",
-    "worker:sync": "npm run build && npm run worker:migrate && npm run worker:deploy",
-    "build:cf": "npm run build"
+    "worker:sync": "npm run cf:inject-d1-id && npm run build && npm run worker:migrate && npm run worker:deploy",
+    "build:cf": "npm run cf:inject-d1-id && npm run build"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
