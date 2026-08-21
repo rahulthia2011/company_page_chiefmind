@@ -7,7 +7,9 @@ const isCi = Boolean(process.env.CI || process.env.CF_PAGES || process.env.CF_PA
 const PLACEHOLDER = 'REPLACE_WITH_D1_DATABASE_ID'
 const UUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 const source = readFileSync(filePath, 'utf8')
-const match = source.match(/"database_id"\s*:\s*"([^"]+)"/)
+const DATABASE_ID_RE = /(?:"database_id"|database_id)\s*:\s*"([^"]+)"/
+const DATABASE_ID_REPLACE_RE = /((?:"database_id"|database_id)\s*:\s*")[^"]+(")/
+const match = source.match(DATABASE_ID_RE)
 const currentDatabaseId = match?.[1]
 
 if (!databaseId) {
@@ -44,12 +46,14 @@ if (!UUID_RE.test(databaseId)) {
 }
 
 const next = source.replace(
-  /("database_id"\s*:\s*")[^"]+(")/,
+  DATABASE_ID_REPLACE_RE,
   `$1${databaseId}$2`,
 )
 
 if (next === source) {
-  console.error('[cf:inject-d1-id] Could not find database_id in wrangler.jsonc.')
+  console.error(
+    `[cf:inject-d1-id] Could not find database_id in wrangler.jsonc at ${filePath}. Ensure d1_databases has a database_id field.`,
+  )
   process.exit(1)
 }
 
