@@ -1,0 +1,86 @@
+name = "chiefmind-intake"
+main = "src/index.ts"
+compatibility_date = "2025-01-15"
+compatibility_flags = ["nodejs_compat"]
+
+# Workers on *.workers.dev and Cloudflare-managed custom domains are HTTPS/TLS by default.
+# Enforce HTTPS-only via Cloudflare dashboard SSL/TLS -> "Always Use HTTPS" for any custom route.
+
+workers_dev = true
+
+# Comma-separated allow-list of origins that may call POST /intake.
+# Override per environment below.
+[vars]
+ALLOWED_ORIGINS = "http://localhost:5173"
+MAX_BODY_BYTES = "16384"
+ENFORCE_HTTPS = "true"
+
+# D1 database binding. Replace database_id after running `wrangler d1 create chiefmind_intake`.
+[[d1_databases]]
+binding = "DB"
+database_name = "chiefmind_intake"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+# Rate limit: 10 POSTs per 60s per client IP. Namespace IDs are per-account; pick unique ints.
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+# ---------- Production environment ----------
+[env.production]
+name = "chiefmind-intake-prod"
+workers_dev = false
+
+[env.production.vars]
+ALLOWED_ORIGINS = "https://chiefmind.io,https://www.chiefmind.io"
+MAX_BODY_BYTES = "16384"
+ENFORCE_HTTPS = "true"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "chiefmind_intake"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[[env.production.unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+# Attach the Worker to a custom HTTPS route (requires the zone in your Cloudflare account).
+# Cloudflare will automatically provision/renew the TLS certificate for this hostname.
+[[env.production.routes]]
+pattern = "api.chiefmind.io/intake*"
+custom_domain = true
+
+# ---------- Staging environment ----------
+[env.staging]
+name = "chiefmind-intake-staging"
+workers_dev = true
+
+[env.staging.vars]
+ALLOWED_ORIGINS = "https://staging.chiefmind.io"
+MAX_BODY_BYTES = "16384"
+ENFORCE_HTTPS = "true"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "chiefmind_intake_staging"
+database_id = "REPLACE_WITH_STAGING_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[[env.staging.unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1002"
+simple = { limit = 20, period = 60 }
+
+# Observability
+[observability]
+enabled = true
+head_sampling_rate = 1
+

@@ -1,0 +1,21 @@
+{
+  "name": "chiefmind-intake-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "d1:create": "wrangler d1 create chiefmind_intake",
+    "d1:migrate:local": "wrangler d1 migrations apply chiefmind_intake --local",
+    "d1:migrate:remote": "wrangler d1 migrations apply chiefmind_intake --remote",
+    "d1:query:local": "wrangler d1 execute chiefmind_intake --local --command",
+    "d1:query:remote": "wrangler d1 execute chiefmind_intake --remote --command"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250101.0",
+    "typescript": "~5.6.0",
+    "wrangler": "^3.90.0"
+  }
+}
