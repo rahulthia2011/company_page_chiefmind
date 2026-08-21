@@ -45,18 +45,6 @@ if (!UUID_RE.test(databaseId)) {
   process.exit(1)
 }
 
-if (!currentDatabaseId) {
-  console.error(
-    `[cf:inject-d1-id] Could not find database_id in wrangler.jsonc at ${filePath}. Ensure d1_databases has a database_id field.`,
-  )
-  process.exit(1)
-}
-
-if (currentDatabaseId === databaseId) {
-  console.log('[cf:inject-d1-id] wrangler.jsonc already has the requested database_id.')
-  process.exit(0)
-}
-
 const next = source.replace(
   DATABASE_ID_REPLACE_RE,
   `$1${databaseId}$2`,
