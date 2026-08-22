@@ -45,6 +45,11 @@ if (!UUID_RE.test(databaseId)) {
   process.exit(1)
 }
 
+if (currentDatabaseId === databaseId) {
+  console.log('[cf:inject-d1-id] database_id already matches CF_D1_DATABASE_ID.')
+  process.exit(0)
+}
+
 const next = source.replace(
   DATABASE_ID_REPLACE_RE,
   `$1${databaseId}$2`,
