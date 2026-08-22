@@ -33,7 +33,7 @@ export default function AboutPage() {
           <div className="flow-stack flow-signal-grid">
             <div className="signal-tile" style={{ '--w': 19, '--h': 2 } as CSSProperties}><span>neural net training</span></div>
             <div className="signal-tile" style={{ '--w': 19, '--h': 2 } as CSSProperties}><span>intelligent systems</span></div>
-            <div className="signal-tile" style={{ '--w': 15, '--h': 1 } as CSSProperties}><span>agentic systems</span></div>
+            <div className="signal-tile" style={{ '--w': 10, '--h': 1 } as CSSProperties}><span>agentic AI</span></div>
             <div className="signal-tile" style={{ '--w': 17, '--h': 1 } as CSSProperties}><span>data distribution</span></div>
             <div className="signal-tile" style={{ '--w': 13, '--h': 0 } as CSSProperties}><span>reports</span></div>
             <div className="signal-tile" style={{ '--w': 13, '--h': 0 } as CSSProperties}><span>alerts</span></div>
