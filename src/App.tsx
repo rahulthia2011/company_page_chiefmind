@@ -1,19 +1,16 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { buttonVariants } from '@/components/ui/button-variants'
 import './App.css'
 
 const loadAboutPage = () => import('@/pages/AboutPage')
 const loadContactPage = () => import('@/pages/ContactPage')
 const loadRealMarketPage = () => import('@/pages/RealMarketPage')
-const loadRealChannelPage = () => import('@/pages/RealChannelPage')
 
 const AboutPage = lazy(loadAboutPage)
 const ContactPage = lazy(loadContactPage)
 const RealMarketPage = lazy(loadRealMarketPage)
-const RealChannelPage = lazy(loadRealChannelPage)
 
 type ProductLink = {
   name: string
@@ -21,7 +18,7 @@ type ProductLink = {
   children?: ProductLink[]
 }
 
-type Page = 'home' | 'about' | 'contact' | 'real-market' | 'real-channel'
+type Page = 'home' | 'about' | 'contact' | 'real-market'
 
 const starColors = ['#ffffff', '#ddecff', '#b9dfff', '#ffe6ad', '#ffd36e'] as const
 const BACKGROUND_STAR_COUNT = 640
@@ -80,10 +77,6 @@ const getProductHash = (name: string) => {
     return '#real-market'
   }
 
-  if (name.includes('Channel')) {
-    return '#real-channel'
-  }
-
   return '#home'
 }
 
@@ -101,8 +94,6 @@ const getCurrentPage = (): Page => {
       return 'contact'
     case '#real-market':
       return 'real-market'
-    case '#real-channel':
-      return 'real-channel'
     default:
       return 'home'
   }
@@ -167,7 +158,6 @@ function App() {
       loadAboutPage()
       loadContactPage()
       loadRealMarketPage()
-      loadRealChannelPage()
     }
 
     let idleId: number | undefined
@@ -196,7 +186,6 @@ function App() {
   const isAboutPage = page === 'about'
   const isContactPage = page === 'contact'
   const isRealMarketPage = page === 'real-market'
-  const isRealChannelPage = page === 'real-channel'
 
   return (
     <div className="site-shell" onClick={handleInternalNavigation}>
@@ -313,9 +302,9 @@ function App() {
               </p>
 
               <div className="cta-row">
-                <Button variant="default" size="lg">
-                  Start a project <ArrowRight size={16} />
-                </Button>
+                <a className={buttonVariants({ variant: 'default', size: 'lg' })} href="#contact">
+                  Reach out <ArrowRight size={16} />
+                </a>
                 <a className={buttonVariants({ variant: 'outline', size: 'lg' })} href="#about">
                   View capabilities
                 </a>
@@ -333,12 +322,6 @@ function App() {
         {isRealMarketPage ? (
           <Suspense fallback={null}>
             <div className="page-fade-left"><RealMarketPage /></div>
-          </Suspense>
-        ) : null}
-
-        {isRealChannelPage ? (
-          <Suspense fallback={null}>
-            <div className="page-fade-left"><RealChannelPage /></div>
           </Suspense>
         ) : null}
 
